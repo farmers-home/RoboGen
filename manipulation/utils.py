@@ -2,7 +2,7 @@ import os
 import yaml
 import numpy as np
 from PIL import Image
-from moviepy.editor import ImageSequenceClip
+from moviepy import ImageSequenceClip
 import os.path as osp
 import pybullet as p
 import os
@@ -209,7 +209,7 @@ def save_numpy_as_gif(array, filename, fps=20, scale=1.0):
         array = array[..., np.newaxis] * np.ones(3)
 
     # make the moviepy clip
-    clip = ImageSequenceClip(list(array), fps=fps).resize(scale)
+    clip = ImageSequenceClip(list(array), fps=fps).resized(scale)
     clip.write_gif(filename, fps=fps)
     return clip
 

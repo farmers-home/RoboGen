@@ -13,6 +13,9 @@ from manipulation.ur5 import UR5
 from manipulation.sawyer import Sawyer
 from manipulation.utils import parse_config, load_env, download_and_parse_objavarse_obj_from_yaml_config
 from manipulation.gpt_reward_api import get_joint_id_from_name, get_link_id_from_name
+import genesis as gs
+
+gs.init(backend=gs.gpu)
 
 
 class SimpleEnv(gym.Env):
@@ -65,17 +68,16 @@ class SimpleEnv(gym.Env):
         self.suction_obj_id = None
         self.activated = 0
 
-        if self.gui:
-            try:
-                self.id = p.connect(p.GUI)
-            except:
-                self.id = p.connect(p.DIRECT)
-        else:
-            self.id = p.connect(p.DIRECT)
+
+        self.scene = gs.Scene(
+            sim_options=gs.options.SimOptions(
+                dt=dt,
+                gravity=(0, 0, self.gravity),
+            ),
+            show_viewer=self.gui,
+        )
 
         self.asset_dir = osp.join(osp.dirname(osp.realpath(__file__)), "assets/")
-        hz = int(1 / dt)
-        p.setTimeStep(1.0 / hz, physicsClientId=self.id)
 
         self.seed()
         self.set_scene()
