@@ -17,5 +17,7 @@ objaverse_utils/data
 example_tasks/*/*/blip2
 example_tasks/*/*/experiment
 example_tasks/*/*/teaser
+example_tasks/*/*/RL_sac
+example_tasks/*/*/primitive_states
 *.swp
 *.swo
